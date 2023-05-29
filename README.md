@@ -1,2 +1,2 @@
 # transformer-text-summarization
-This small project is to pass the Statistical Course.
+This small project is to pass the Statistical Learning Course.
