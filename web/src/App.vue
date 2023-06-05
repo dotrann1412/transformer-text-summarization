@@ -14,6 +14,7 @@
 }
 
 .main-container {
+  margin-top: 30px;
   height: calc(100vh - var(--ep-menu-item-height) - 3px);
 }
 </style>
