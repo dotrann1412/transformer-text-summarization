@@ -8,7 +8,7 @@ __punctuation = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
 __nlp = spacy.load('en_core_web_sm')
 __stopwords = list(STOP_WORDS)
 
-def summarize(document, keep = 0.3):
+def use_word_frequency(document, keep = 0.3):
     global __tokenizer, __punctuation, __nlp, __stopwords
     tokenized = __tokenizer.tokenize(document)
     frequencies = {}
@@ -37,3 +37,12 @@ def summarize(document, keep = 0.3):
     summary = nlargest(expected_length, sentences_frequencies, key = sentences_frequencies.get)
 
     return ' '.join([sent.text for sent in summary])
+
+def use_t5(document, keep = 0.3):
+    pass
+
+def use_bert(document, keep = 0.3):
+    pass
+
+def use_gpt(document, keep = 0.3):
+    pass
