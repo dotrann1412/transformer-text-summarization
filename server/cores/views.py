@@ -7,6 +7,7 @@ from rest_framework import status
 from enum import Enum
 
 from text_summarization.summarizer import use_word_frequency as basic_summarize
+from text_summarization.summarizer import use_t5
 
 class TextSummarizer(APIView):
     class Summarizer(str, Enum):
@@ -44,7 +45,7 @@ class TextSummarizer(APIView):
                 raise "Error while processing the requests, text should be provided. If something is going wrong, remind us via [link](https://google.com)."
             
             return JsonResponse({
-                "summary": basic_summarize(
+                "summary": use_t5(
                     text, 
                     keep
                 )
