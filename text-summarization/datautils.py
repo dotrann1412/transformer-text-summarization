@@ -39,6 +39,13 @@ class TextSummarizationDataset(torch.utils.data.Dataset):
         labels = summary_embedded['input_ids']
         labels[labels == 0] = -100
         
+        return [
+            encoded_text['input_ids'].flatten(),
+            encoded_text['attention_mask'].flatten(),
+            labels.flatten(),
+            summary_embedded['attention_mask'].flatten()
+        ]
+        
         return {
             "text": text,
             "summary": summary,
@@ -119,12 +126,15 @@ class CustomizedDataLoader(pl.LightningDataModule):
         
 def load(train_csv, val_csv, test_csv, *args, **kwargs):
     train_df, val_df, test_df = pd.read_csv(train_csv), pd.read_csv(val_csv), pd.read_csv(test_csv)
+    
     text_embedded_length = kwargs.get('text_embedded_length', 512)
     summary_embedded_length = kwargs.get('summary_embedded_length', 128)
+    
     tokenizer = kwargs.get(
         'tokenizer', 
         T5Tokenizer.from_pretrained(kwargs.get('pretrained_model', 't5-base'))
     )
+    
     batch_size = kwargs.get('batch_size', 8)
     
     return CustomizedDataLoader(
