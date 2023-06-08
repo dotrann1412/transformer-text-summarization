@@ -6,16 +6,28 @@
         type="textarea"
         rows="35"
         placeholder="Please input"
+        :disabled="isSummarizing"
       />
       <div class="input-tool">
-        <el-button type="primary" :disabled="textarea1.length == 0" @click="onReset()">Reset</el-button>
+        <el-upload action="https://example.com/" :show-file-list="false" :on-preview="onUploadSuccess()">
+          <el-button type="primary">Upload</el-button>
+        </el-upload>
+        <el-button type="primary" :disabled="textarea1.length == 0" @click="onReset()" style="margin-left: 10px;">Reset</el-button>
       </div>
     </div>
 
     <div class="summary-tool">
       <el-text type="primary" tag="b">Summary percent</el-text>
       <el-slider v-model="keep"></el-slider>
-      <el-button type="primary" round :disabled="textarea1.length == 0" @click="onSendRequest()">Summarize</el-button>
+      <el-button 
+        type="primary" 
+        round 
+        :disabled="textarea1.length == 0" 
+        @click="onSendRequest()"
+        :loading="isSummarizing"
+        style="width: 8vw;">
+          Summarize
+      </el-button>
     </div>
 
     <div class="text-container">
@@ -24,7 +36,7 @@
         type="textarea"
         rows="35"
         placeholder="Summarized text"
-        disabled
+        readonly
       />
     </div>
   </div>
@@ -32,7 +44,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import type { UploadProps, UploadUserFile } from 'element-plus'
 import { summarize } from '../services/summarize'
+import { ocrSpace } from 'ocr-space-api-wrapper'
+
 const textarea1 = ref('')
 const textarea2 = ref('')
 const keep = ref(30)
@@ -42,11 +57,21 @@ const onReset = () => {
   textarea2.value = ""
 }
 
+const onUploadSuccess: UploadProps['onPreview'] = (uploadFile) => {
+  // console.log("Upload to ... server?")
+}
+
+const isSummarizing = ref(false)
+
 const onSendRequest = async () => {
-    console.log(textarea1.value)
-    const res = await summarize(textarea1.value, keep.value/100)
-    console.log(res)
-    // textarea2.value = res.data.summary
+  textarea2.value = ""
+  isSummarizing.value = true
+  const res = await summarize(textarea1.value, keep.value/100)
+  if(res.data.summary != undefined)
+    textarea2.value = res.data.summary
+  else
+    textarea2.value = 'An error occured! Please try again.'
+  isSummarizing.value = false
 }
 
 </script>

@@ -7,7 +7,6 @@ const service = axios.create({
 
 service.interceptors.request.use(
     async (config) => {
-        config.headers['Access-Control-Allow-Headers'] = '*'
         return config
     },
     (error) => {
