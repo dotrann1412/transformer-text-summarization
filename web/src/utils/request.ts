@@ -7,6 +7,7 @@ const service = axios.create({
 
 service.interceptors.request.use(
     async (config) => {
+        // config.headers["Access-Control-Allow-Origin"] = "*"
         return config
     },
     (error) => {

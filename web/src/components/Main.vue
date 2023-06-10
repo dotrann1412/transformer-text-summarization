@@ -5,19 +5,31 @@
         v-model="textarea1"
         type="textarea"
         rows="35"
-        placeholder="Please input"
+        placeholder="Input text or upload file"
         :disabled="isSummarizing"
       />
       <div class="input-tool">
-        <el-upload action="https://example.com/" :show-file-list="false" :on-preview="onUploadSuccess()">
+        <el-upload 
+          :action="upload_api" 
+          :show-file-list="false" 
+          method="post"
+          name="filename"
+          :on-success="onUploadSuccess"
+          :disabled="isSummarizing">
           <el-button type="primary">Upload</el-button>
         </el-upload>
-        <el-button type="primary" :disabled="textarea1.length == 0" @click="onReset()" style="margin-left: 10px;">Reset</el-button>
+        <el-button
+          type="primary" 
+          :disabled="textarea1.length == 0 || isSummarizing" 
+          @click="onReset()" 
+          style="margin-left: 10px;">
+          Reset
+        </el-button>
       </div>
     </div>
 
     <div class="summary-tool">
-      <el-text type="primary" tag="b">Summary percent</el-text>
+      <el-text type="primary" tag="b" truncated>Summary percent</el-text>
       <el-slider v-model="keep"></el-slider>
       <el-button 
         type="primary" 
@@ -52,17 +64,20 @@ const textarea1 = ref('')
 const textarea2 = ref('')
 const keep = ref(30)
 
+// reset feature
 const onReset = () => {
   textarea1.value = ""
   textarea2.value = ""
 }
 
-const onUploadSuccess: UploadProps['onPreview'] = (uploadFile) => {
-  // console.log("Upload to ... server?")
+// upload feature
+const upload_api = ref(import.meta.env.VITE_URL + '/cores/upload/')
+const onUploadSuccess: UploadProps['onSuccess'] = (response) => {
+  textarea1.value = response['ocr']
 }
 
+// summarize feature
 const isSummarizing = ref(false)
-
 const onSendRequest = async () => {
   textarea2.value = ""
   isSummarizing.value = true
