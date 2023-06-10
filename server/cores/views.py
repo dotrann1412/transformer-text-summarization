@@ -1,7 +1,9 @@
-from django.shortcuts import render
+import requests
+import json
 
 # Create your views here.
 from rest_framework.views import APIView
+from rest_framework.parsers import MultiPartParser
 from django.http import JsonResponse
 from rest_framework import status
 from enum import Enum
@@ -53,3 +55,28 @@ class TextSummarizer(APIView):
 
         except Exception as e:
             return JsonResponse({"summary": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+class Upload(APIView):
+    """
+    A view that can accept POST requests with JSON content.
+    """
+    parser_classes = (MultiPartParser,)
+
+    def post(self, request, format=None):
+        try:
+            obj_file = request.data['filename']
+            payload = {
+                'isOverlayRequired': False,
+                'apikey': 'K85079096388957',
+            }
+            r = requests.post(
+                    'https://api.ocr.space/parse/image',
+                    files={'filename': obj_file},
+                    data=payload,
+                )
+            decode = r.content.decode()
+            res_data = json.loads(decode)
+            parsed_text = res_data['ParsedResults'][0]['ParsedText']
+            return JsonResponse({'ocr': parsed_text}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return JsonResponse({'ocr': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
