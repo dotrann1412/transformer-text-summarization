@@ -31,14 +31,15 @@
     <div class="summary-tool">
       <el-text type="primary" tag="b" truncated>Summary percent</el-text>
       <el-slider v-model="keep"></el-slider>
-      <el-button 
-        type="primary" 
-        round 
-        :disabled="textarea1.length == 0" 
+      <el-button
+        type="primary"
+        round
+        :disabled="textarea1.length == 0"
         @click="onSendRequest()"
         :loading="isSummarizing"
-        style="width: 8vw;">
-          Summarize
+        style="width: 8vw"
+      >
+        Summarize
       </el-button>
     </div>
 
@@ -55,40 +56,37 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import type { UploadProps, UploadUserFile } from 'element-plus'
-import { summarize } from '../services/summarize'
-import { ocrSpace } from 'ocr-space-api-wrapper'
+import { ref } from "vue";
+import type { UploadProps, UploadUserFile } from "element-plus";
+import { summarize } from "../services/summarize";
+import { ocrSpace } from "ocr-space-api-wrapper";
 
-const textarea1 = ref('')
-const textarea2 = ref('')
-const keep = ref(30)
+const textarea1 = ref("");
+const textarea2 = ref("");
+const keep = ref(30);
 
 // reset feature
 const onReset = () => {
-  textarea1.value = ""
-  textarea2.value = ""
-}
+  textarea1.value = "";
+  textarea2.value = "";
+};
 
 // upload feature
-const upload_api = ref(import.meta.env.VITE_URL + '/cores/upload/')
-const onUploadSuccess: UploadProps['onSuccess'] = (response) => {
-  textarea1.value = response['ocr']
-}
+const upload_api = ref(import.meta.env.VITE_URL + "/cores/upload/");
+const onUploadSuccess: UploadProps["onSuccess"] = (response) => {
+  textarea1.value = response["ocr"];
+};
 
 // summarize feature
-const isSummarizing = ref(false)
+const isSummarizing = ref(false);
 const onSendRequest = async () => {
-  textarea2.value = ""
-  isSummarizing.value = true
-  const res = await summarize(textarea1.value, keep.value/100)
-  if(res.data.summary != undefined)
-    textarea2.value = res.data.summary
-  else
-    textarea2.value = 'An error occured! Please try again.'
-  isSummarizing.value = false
-}
-
+  textarea2.value = "";
+  isSummarizing.value = true;
+  const res = await summarize(textarea1.value, keep.value / 100);
+  if (res.data.summary != undefined) textarea2.value = res.data.summary;
+  else textarea2.value = "An error occured! Please try again.";
+  isSummarizing.value = false;
+};
 </script>
 
 <style scoped lang="scss">
@@ -97,7 +95,7 @@ const onSendRequest = async () => {
   position: relative;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   .text-container {
     padding: 30px;
     width: 45vw;
@@ -107,12 +105,15 @@ const onSendRequest = async () => {
     display: flex;
     flex-direction: row;
   }
+  .summary-tool {
+    margin-top: 38vh;
+  }
 }
 </style>
 
 <style lang="scss">
 // disable resize in textarea
 .text-container .ep-textarea .ep-textarea__inner {
-    resize: none
+  resize: none;
 }
 </style>
