@@ -109,3 +109,10 @@ const onSendRequest = async () => {
   }
 }
 </style>
+
+<style lang="scss">
+// disable resize in textarea
+.text-container .ep-textarea .ep-textarea__inner {
+    resize: none
+}
+</style>
