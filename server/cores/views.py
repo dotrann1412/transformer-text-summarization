@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from django.http import JsonResponse
 from rest_framework import status
 from enum import Enum
+import traceback
 
 from text_summarization.summarizer import use_word_frequency as basic_summarize
 from text_summarization.summarizer import use_t5
@@ -12,9 +13,7 @@ from text_summarization.summarizer import use_t5
 class TextSummarizer(APIView):
     class Summarizer(str, Enum):
         BASIC = "basic"
-        BERT = "bert"
         T5 = "t5"
-        GPT = "gpt"
         
     def get(self, request):
         return JsonResponse({
@@ -23,13 +22,11 @@ class TextSummarizer(APIView):
                 "This endpoint is used to summarize the given document or text.\n"
                 "There are three summarization methods available:\n"
                 "    1. Basic Summarization. Using frequency table and statistical method\n"
-                "    2. BERT Summarization base\n"
                 "    3. T5 Summarization base\n"
-                "    4. GPT Summarization base, GPT 2 is used for now\n"
                 "To use the service, send a POST request to this endpoint with the following data:\n"
                 "    1. text: the text to be summarized\n"
                 "    2. keep: the percentage of the text to be kept (default: 0.3)\n"
-                "    3. summarizer (basic | bert | t5 | gpt 2): the summarization method to be used (default: t5)\n"
+                "    3. summarizer (basic | t5): the summarization method to be used (default: t5)\n"
         }, status=status.HTTP_200_OK)
 
     def post(self, request):
@@ -52,4 +49,5 @@ class TextSummarizer(APIView):
             }, status=status.HTTP_200_OK)
 
         except Exception as e:
+            traceback.print_exc()
             return JsonResponse({"summary": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
