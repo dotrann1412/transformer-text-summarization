@@ -23,14 +23,12 @@
           :disabled="textarea1.length == 0 || isSummarizing" 
           @click="onReset()" 
           style="margin-left: 10px;">
-          Reset
+          Clear Text
         </el-button>
       </div>
     </div>
 
     <div class="summary-tool">
-      <el-text type="primary" tag="b" truncated>Summary percent</el-text>
-      <el-slider v-model="keep"></el-slider>
       <el-button
         type="primary"
         round
@@ -72,7 +70,7 @@ const onReset = () => {
 };
 
 // upload feature
-const upload_api = ref(import.meta.env.VITE_URL + "/cores/upload/");
+const upload_api = ref(import.meta.env.VITE_URL + "cores/upload/");
 const onUploadSuccess: UploadProps["onSuccess"] = (response) => {
   textarea1.value = response["ocr"];
 };
@@ -82,7 +80,7 @@ const isSummarizing = ref(false);
 const onSendRequest = async () => {
   textarea2.value = "";
   isSummarizing.value = true;
-  const res = await summarize(textarea1.value, keep.value / 100);
+  const res = await summarize(textarea1.value);
   if (res.data.summary != undefined) textarea2.value = res.data.summary;
   else textarea2.value = "An error occured! Please try again.";
   isSummarizing.value = false;
