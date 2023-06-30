@@ -160,3 +160,6 @@ cython_debug/
 #.idea/
 
 text-summarization/dataset/cnn_dailymail/*.csv
+web/node_modules/
+**/__init__.py
+**/env
