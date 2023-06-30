@@ -2,7 +2,8 @@
 Final project of Statistical Learning Course.
 
 ## Students
-| StudentID | Name |
+
+| ID | Name |
 | -------   | ----- |
 | 20120057  | Trần Ngọc Đô |
 | 20120024  | Huỳnh Minh Tuấn |
@@ -44,6 +45,10 @@ $user python manage.py runserver <server_port>
 $user cd web
 $user yarn dev --port <web_port>
 ```
+
+## Or use our demo application!
+
+From Huggingface: [Link](https://huggingface.co/spaces/SpaceOCR/transformer-text-summarization)
 
 ## Web capture
 ![](images/capture.png)
