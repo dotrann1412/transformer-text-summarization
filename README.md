@@ -48,7 +48,7 @@ $user yarn dev --port <web_port>
 
 ## Or use our demo application!
 
-From Huggingface: [Link](https://ndtran-t5-small-cnn-daily-mails.hf.space/))
+From Huggingface: [Link](https://ndtran-t5-small-cnn-daily-mails.hf.space/)
 
 ## Web capture
 ![](images/capture.png)
