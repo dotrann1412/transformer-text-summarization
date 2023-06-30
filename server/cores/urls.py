@@ -16,8 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import TextSummarizer
+from .views import TextSummarizer, Upload
 
 urlpatterns = [
     path("summarize/", TextSummarizer.as_view()),
+    path("upload/", Upload.as_view())
 ]
