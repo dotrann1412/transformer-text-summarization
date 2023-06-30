@@ -159,6 +159,7 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+text-summarization/dataset/cnn_dailymail/*.csv
 web/node_modules/
 **/__init__.py
 **/env
