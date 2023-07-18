@@ -1,6 +1,10 @@
 # Transformer Text Summarization
 Final project of Statistical Learning Course.
 
+## Status
+
+[![CodeFactor](https://www.codefactor.io/repository/github/dotrann1412/transformer-text-summarization/badge)](https://www.codefactor.io/repository/github/dotrann1412/transformer-text-summarization)
+
 ## Students
 
 | ID | Name |
