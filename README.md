@@ -76,7 +76,7 @@ model.eval()
 tokenizer = AutoTokenizer.from_pretrained('t5-small')
         
 generated_ids = model.generate(
-      tokenizer(configs['task_prefix'] + text, return_tensors = 'pt').input_ids, 
+      tokenizer('summarize: ' + input('Enter your input'), return_tensors = 'pt').input_ids, 
       do_sample = True, 
       max_length = 256,
       top_k = 1, 
